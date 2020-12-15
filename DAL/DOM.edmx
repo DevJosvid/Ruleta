@@ -1,0 +1,420 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="RouletteModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="apuesta">
+          <Key>
+            <PropertyRef Name="id_apuesta" />
+          </Key>
+          <Property Name="id_apuesta" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_Ruleta" Type="int" Nullable="false" />
+          <Property Name="id_Usuario" Type="int" Nullable="false" />
+          <Property Name="valorApuesta" Type="int" Nullable="false" />
+          <Property Name="numero" Type="int" Nullable="false" />
+          <Property Name="id_color" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Color">
+          <Key>
+            <PropertyRef Name="id_Color" />
+          </Key>
+          <Property Name="id_Color" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Color" Type="varchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="dineros">
+          <Key>
+            <PropertyRef Name="id_dinero" />
+          </Key>
+          <Property Name="id_dinero" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_usuario" Type="int" Nullable="false" />
+          <Property Name="cantidadDinero" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Rol">
+          <Key>
+            <PropertyRef Name="id_Rol" />
+          </Key>
+          <Property Name="id_Rol" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Rol" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Ruletas">
+          <Key>
+            <PropertyRef Name="id_ruleta" />
+          </Key>
+          <Property Name="id_ruleta" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombreRuleta" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Usuarios">
+          <Key>
+            <PropertyRef Name="id_Usuario" />
+          </Key>
+          <Property Name="id_Usuario" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombres" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Apellido" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="contrasena" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Id_rol" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__apuesta__id_colo__44FF419A">
+          <End Role="Color" Type="Self.Color" Multiplicity="1" />
+          <End Role="apuesta" Type="Self.apuesta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Color">
+              <PropertyRef Name="id_Color" />
+            </Principal>
+            <Dependent Role="apuesta">
+              <PropertyRef Name="id_color" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__apuesta__id_Rule__4316F928">
+          <End Role="Ruletas" Type="Self.Ruletas" Multiplicity="1" />
+          <End Role="apuesta" Type="Self.apuesta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ruletas">
+              <PropertyRef Name="id_ruleta" />
+            </Principal>
+            <Dependent Role="apuesta">
+              <PropertyRef Name="id_Ruleta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__apuesta__id_Usua__440B1D61">
+          <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="1" />
+          <End Role="apuesta" Type="Self.apuesta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuarios">
+              <PropertyRef Name="id_Usuario" />
+            </Principal>
+            <Dependent Role="apuesta">
+              <PropertyRef Name="id_Usuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__dineros__id_usua__3E52440B">
+          <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="1" />
+          <End Role="dineros" Type="Self.dineros" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuarios">
+              <PropertyRef Name="id_Usuario" />
+            </Principal>
+            <Dependent Role="dineros">
+              <PropertyRef Name="id_usuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Usuarios__Id_rol__3B75D760">
+          <End Role="Rol" Type="Self.Rol" Multiplicity="1" />
+          <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rol">
+              <PropertyRef Name="id_Rol" />
+            </Principal>
+            <Dependent Role="Usuarios">
+              <PropertyRef Name="Id_rol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="RouletteModelStoreContainer">
+          <EntitySet Name="apuesta" EntityType="Self.apuesta" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Color" EntityType="Self.Color" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="dineros" EntityType="Self.dineros" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Rol" EntityType="Self.Rol" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ruletas" EntityType="Self.Ruletas" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Usuarios" EntityType="Self.Usuarios" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__apuesta__id_colo__44FF419A" Association="Self.FK__apuesta__id_colo__44FF419A">
+            <End Role="Color" EntitySet="Color" />
+            <End Role="apuesta" EntitySet="apuesta" />
+          </AssociationSet>
+          <AssociationSet Name="FK__apuesta__id_Rule__4316F928" Association="Self.FK__apuesta__id_Rule__4316F928">
+            <End Role="Ruletas" EntitySet="Ruletas" />
+            <End Role="apuesta" EntitySet="apuesta" />
+          </AssociationSet>
+          <AssociationSet Name="FK__apuesta__id_Usua__440B1D61" Association="Self.FK__apuesta__id_Usua__440B1D61">
+            <End Role="Usuarios" EntitySet="Usuarios" />
+            <End Role="apuesta" EntitySet="apuesta" />
+          </AssociationSet>
+          <AssociationSet Name="FK__dineros__id_usua__3E52440B" Association="Self.FK__dineros__id_usua__3E52440B">
+            <End Role="Usuarios" EntitySet="Usuarios" />
+            <End Role="dineros" EntitySet="dineros" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Usuarios__Id_rol__3B75D760" Association="Self.FK__Usuarios__Id_rol__3B75D760">
+            <End Role="Rol" EntitySet="Rol" />
+            <End Role="Usuarios" EntitySet="Usuarios" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="RouletteModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="apuesta">
+          <Key>
+            <PropertyRef Name="id_apuesta" />
+          </Key>
+          <Property Name="id_apuesta" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_Ruleta" Type="Int32" Nullable="false" />
+          <Property Name="id_Usuario" Type="Int32" Nullable="false" />
+          <Property Name="valorApuesta" Type="Int32" Nullable="false" />
+          <Property Name="numero" Type="Int32" Nullable="false" />
+          <Property Name="id_color" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Color" Relationship="Self.FK__apuesta__id_colo__44FF419A" FromRole="apuesta" ToRole="Color" />
+          <NavigationProperty Name="Ruletas" Relationship="Self.FK__apuesta__id_Rule__4316F928" FromRole="apuesta" ToRole="Ruletas" />
+          <NavigationProperty Name="Usuarios" Relationship="Self.FK__apuesta__id_Usua__440B1D61" FromRole="apuesta" ToRole="Usuarios" />
+        </EntityType>
+        <EntityType Name="Color">
+          <Key>
+            <PropertyRef Name="id_Color" />
+          </Key>
+          <Property Name="id_Color" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Color1" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="apuesta" Relationship="Self.FK__apuesta__id_colo__44FF419A" FromRole="Color" ToRole="apuesta" />
+        </EntityType>
+        <EntityType Name="dineros">
+          <Key>
+            <PropertyRef Name="id_dinero" />
+          </Key>
+          <Property Name="id_dinero" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_usuario" Type="Int32" Nullable="false" />
+          <Property Name="cantidadDinero" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Usuarios" Relationship="Self.FK__dineros__id_usua__3E52440B" FromRole="dineros" ToRole="Usuarios" />
+        </EntityType>
+        <EntityType Name="Rol">
+          <Key>
+            <PropertyRef Name="id_Rol" />
+          </Key>
+          <Property Name="id_Rol" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Rol1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Usuarios" Relationship="Self.FK__Usuarios__Id_rol__3B75D760" FromRole="Rol" ToRole="Usuarios" />
+        </EntityType>
+        <EntityType Name="Ruletas">
+          <Key>
+            <PropertyRef Name="id_ruleta" />
+          </Key>
+          <Property Name="id_ruleta" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombreRuleta" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="apuesta" Relationship="Self.FK__apuesta__id_Rule__4316F928" FromRole="Ruletas" ToRole="apuesta" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Usuarios">
+          <Key>
+            <PropertyRef Name="id_Usuario" />
+          </Key>
+          <Property Name="id_Usuario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombres" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Apellido" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="contrasena" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Id_rol" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="apuesta" Relationship="Self.FK__apuesta__id_Usua__440B1D61" FromRole="Usuarios" ToRole="apuesta" />
+          <NavigationProperty Name="dineros" Relationship="Self.FK__dineros__id_usua__3E52440B" FromRole="Usuarios" ToRole="dineros" />
+          <NavigationProperty Name="Rol" Relationship="Self.FK__Usuarios__Id_rol__3B75D760" FromRole="Usuarios" ToRole="Rol" />
+        </EntityType>
+        <Association Name="FK__apuesta__id_colo__44FF419A">
+          <End Role="Color" Type="Self.Color" Multiplicity="1" />
+          <End Role="apuesta" Type="Self.apuesta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Color">
+              <PropertyRef Name="id_Color" />
+            </Principal>
+            <Dependent Role="apuesta">
+              <PropertyRef Name="id_color" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__apuesta__id_Rule__4316F928">
+          <End Role="Ruletas" Type="Self.Ruletas" Multiplicity="1" />
+          <End Role="apuesta" Type="Self.apuesta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ruletas">
+              <PropertyRef Name="id_ruleta" />
+            </Principal>
+            <Dependent Role="apuesta">
+              <PropertyRef Name="id_Ruleta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__apuesta__id_Usua__440B1D61">
+          <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="1" />
+          <End Role="apuesta" Type="Self.apuesta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuarios">
+              <PropertyRef Name="id_Usuario" />
+            </Principal>
+            <Dependent Role="apuesta">
+              <PropertyRef Name="id_Usuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__dineros__id_usua__3E52440B">
+          <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="1" />
+          <End Role="dineros" Type="Self.dineros" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuarios">
+              <PropertyRef Name="id_Usuario" />
+            </Principal>
+            <Dependent Role="dineros">
+              <PropertyRef Name="id_usuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Usuarios__Id_rol__3B75D760">
+          <End Role="Rol" Type="Self.Rol" Multiplicity="1" />
+          <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rol">
+              <PropertyRef Name="id_Rol" />
+            </Principal>
+            <Dependent Role="Usuarios">
+              <PropertyRef Name="Id_rol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="RouletteEntities2" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="apuesta" EntityType="Self.apuesta" />
+          <EntitySet Name="Color" EntityType="Self.Color" />
+          <EntitySet Name="dineros" EntityType="Self.dineros" />
+          <EntitySet Name="Rol" EntityType="Self.Rol" />
+          <EntitySet Name="Ruletas" EntityType="Self.Ruletas" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="Usuarios" EntityType="Self.Usuarios" />
+          <AssociationSet Name="FK__apuesta__id_colo__44FF419A" Association="Self.FK__apuesta__id_colo__44FF419A">
+            <End Role="Color" EntitySet="Color" />
+            <End Role="apuesta" EntitySet="apuesta" />
+          </AssociationSet>
+          <AssociationSet Name="FK__apuesta__id_Rule__4316F928" Association="Self.FK__apuesta__id_Rule__4316F928">
+            <End Role="Ruletas" EntitySet="Ruletas" />
+            <End Role="apuesta" EntitySet="apuesta" />
+          </AssociationSet>
+          <AssociationSet Name="FK__apuesta__id_Usua__440B1D61" Association="Self.FK__apuesta__id_Usua__440B1D61">
+            <End Role="Usuarios" EntitySet="Usuarios" />
+            <End Role="apuesta" EntitySet="apuesta" />
+          </AssociationSet>
+          <AssociationSet Name="FK__dineros__id_usua__3E52440B" Association="Self.FK__dineros__id_usua__3E52440B">
+            <End Role="Usuarios" EntitySet="Usuarios" />
+            <End Role="dineros" EntitySet="dineros" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Usuarios__Id_rol__3B75D760" Association="Self.FK__Usuarios__Id_rol__3B75D760">
+            <End Role="Rol" EntitySet="Rol" />
+            <End Role="Usuarios" EntitySet="Usuarios" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="RouletteModelStoreContainer" CdmEntityContainer="RouletteEntities2">
+          <EntitySetMapping Name="apuesta">
+            <EntityTypeMapping TypeName="RouletteModel.apuesta">
+              <MappingFragment StoreEntitySet="apuesta">
+                <ScalarProperty Name="id_apuesta" ColumnName="id_apuesta" />
+                <ScalarProperty Name="id_Ruleta" ColumnName="id_Ruleta" />
+                <ScalarProperty Name="id_Usuario" ColumnName="id_Usuario" />
+                <ScalarProperty Name="valorApuesta" ColumnName="valorApuesta" />
+                <ScalarProperty Name="numero" ColumnName="numero" />
+                <ScalarProperty Name="id_color" ColumnName="id_color" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Color">
+            <EntityTypeMapping TypeName="RouletteModel.Color">
+              <MappingFragment StoreEntitySet="Color">
+                <ScalarProperty Name="id_Color" ColumnName="id_Color" />
+                <ScalarProperty Name="Color1" ColumnName="Color" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="dineros">
+            <EntityTypeMapping TypeName="RouletteModel.dineros">
+              <MappingFragment StoreEntitySet="dineros">
+                <ScalarProperty Name="id_dinero" ColumnName="id_dinero" />
+                <ScalarProperty Name="id_usuario" ColumnName="id_usuario" />
+                <ScalarProperty Name="cantidadDinero" ColumnName="cantidadDinero" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rol">
+            <EntityTypeMapping TypeName="RouletteModel.Rol">
+              <MappingFragment StoreEntitySet="Rol">
+                <ScalarProperty Name="id_Rol" ColumnName="id_Rol" />
+                <ScalarProperty Name="Rol1" ColumnName="Rol" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ruletas">
+            <EntityTypeMapping TypeName="RouletteModel.Ruletas">
+              <MappingFragment StoreEntitySet="Ruletas">
+                <ScalarProperty Name="id_ruleta" ColumnName="id_ruleta" />
+                <ScalarProperty Name="nombreRuleta" ColumnName="nombreRuleta" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="RouletteModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Usuarios">
+            <EntityTypeMapping TypeName="RouletteModel.Usuarios">
+              <MappingFragment StoreEntitySet="Usuarios">
+                <ScalarProperty Name="id_Usuario" ColumnName="id_Usuario" />
+                <ScalarProperty Name="Nombres" ColumnName="Nombres" />
+                <ScalarProperty Name="Apellido" ColumnName="Apellido" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="contrasena" ColumnName="contrasena" />
+                <ScalarProperty Name="Id_rol" ColumnName="Id_rol" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
